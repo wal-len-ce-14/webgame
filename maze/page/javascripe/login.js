@@ -4,14 +4,21 @@ const socket = io();
 const map = document.getElementById('map');
 var posx, posy;
 var upyet = true
-var blockrow = 13, blockcol = 19
+var blockrow = 17, blockcol = 25
 var ID = 0
+
 
 for(var i = 0; i < blockrow; i++){
     for(var j = 0; j < blockcol; j++){
         const block = document.createElement('div')
+        // if(Math.random() > 0.3){
+        //     block.className = "block"
+        // }else{
+        //     block.className = "blockage"
+        // }
         block.className = "block"
         block.id = `block_${j}_${i}`
+        
         map.appendChild(block)
     }
 }
@@ -31,6 +38,7 @@ socket.on('init', (x, y, id)=>{
 
     // set client view
     const block = document.getElementById(`block_${posx}_${posy}`)
+    block.classList.add('initblock')
     const player = document.createElement('div')
     player.id = 'player'
     block.appendChild(player)
@@ -43,7 +51,28 @@ document.addEventListener('keydown', (e)=>{
     const key = e.key;
     if (upyet){
         // console.log(key);
-        socket.emit('keypress', key, posx, posy)
+        
+        switch(key){
+            case 'ArrowUp':
+                var block = document.getElementById(`block_${posx}_${posy-1}`)
+                if(block.className != "blockage") socket.emit('keypress', key, posx, posy)
+                break;
+            case 'ArrowDown':
+                var block = document.getElementById(`block_${posx}_${posy+1}`)
+                if(block.className != "blockage") socket.emit('keypress', key, posx, posy)
+                break;
+            case 'ArrowLeft':
+                var block = document.getElementById(`block_${posx-1}_${posy}`)
+                if(block.className != "blockage") socket.emit('keypress', key, posx, posy)
+                break;
+            case 'ArrowRight':
+                var block = document.getElementById(`block_${posx+1}_${posy}`)
+                if(block.className != "blockage") socket.emit('keypress', key, posx, posy)
+                break;
+            default:
+                break;
+        }
+        
         upyet = false
     }
 });
@@ -81,8 +110,11 @@ socket.on('other player', (p)=>{
                 otherplayer.id = other.id
                 otherplayer.className = "otherplayer"
                 if(other.x == posx && other.y == posy){
-                    player.style.left = "0.1rem"
-                    otherplayer.style.right = "0.1rem"
+                    player.style.left = "0.45rem"
+                    otherplayer.style.right = "0.45rem"
+                }else{
+                    player.style.left = ''
+                    console.log('iiiii')
                 }
                 block.appendChild(otherplayer)  
             }

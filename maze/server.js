@@ -46,13 +46,13 @@ io.on('connection', async (socket) => {
                 if(posy > 0) await mongo.updateposition(socket.id, posx, posy-1)
                 break;
             case 'ArrowDown':
-                if(posy <= 12) await mongo.updateposition(socket.id, posx, posy+1)
+                if(posy <= 17) await mongo.updateposition(socket.id, posx, posy+1)
                 break;
             case 'ArrowLeft':
                 if(posx > 0) await mongo.updateposition(socket.id, posx-1, posy)
                 break;
             case 'ArrowRight':
-                if(posx <= 18) await mongo.updateposition(socket.id, posx+1, posy)
+                if(posx <= 25) await mongo.updateposition(socket.id, posx+1, posy)
                 break;
             default:
                 break;

@@ -14,7 +14,7 @@ connect()
 
 async function createplayer(ID) {
     const position = client.db().collection('position');
-    const info = {id: ID, x: 9, y: 6};
+    const info = {id: ID, x: 12, y: 8};
     await position.insertOne(info);
     // console.log('add player '+ID)
 }
