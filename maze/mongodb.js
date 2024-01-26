@@ -14,7 +14,7 @@ connect()
 
 async function createplayer(ID) {
     const position = client.db().collection('position');
-    const info = {id: ID, x: 12, y: 8};
+    const info = {id: ID, x: 12, y: 8, skill: {col: 0, row: 0, around: 0, wave: 0}};
     await position.insertOne(info);
     // console.log('add player '+ID)
 }
@@ -22,6 +22,7 @@ async function createplayer(ID) {
 async function getposition(ID) {
     const position = client.db().collection('position');
     const info = await position.find({id: ID}).toArray();
+    console.log(info[0].skill)
     return info[0]
 }
 
@@ -49,13 +50,23 @@ async function clearposition(){
     console.log('clear/init db')
 }
 
+async function update_skill(ID, col, row, around, wave){
+    const skill = getallposition(ID).skill
+    const position = client.db().collection('position');
+    await position.updateOne({id: ID}, {$set: {skill: { col: skill.col+col, 
+                                                        row: skill.row+row, 
+                                                        around: skill.around+around, 
+                                                        wave: skill.wave+wave }}});
+}
+
 module.exports = {
     createplayer,
     deleteplayer,
     getposition,
     updateposition,
     clearposition,
-    getallposition
+    getallposition,
+    update_skill
 }
 
 // deleteplayer('qNByaY1neKtmFh47AAAB')

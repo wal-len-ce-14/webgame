@@ -114,7 +114,6 @@ socket.on('other player', (p)=>{
                     otherplayer.style.right = "0.45rem"
                 }else{
                     player.style.left = ''
-                    console.log('iiiii')
                 }
                 block.appendChild(otherplayer)  
             }
