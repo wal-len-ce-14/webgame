@@ -14,7 +14,7 @@ connect()
 
 async function createplayer(ID) {
     const position = client.db().collection('position');
-    const info = {id: ID, x: 12, y: 8, skill: {col: 0, row: 0, around: 0, wave: 0}};
+    const info = {id: ID, x: 12, y: 8, skill: {col: 1, row: 1, around: 1, wave: 1}};
     await position.insertOne(info);
     // console.log('add player '+ID)
 }
@@ -22,7 +22,7 @@ async function createplayer(ID) {
 async function getposition(ID) {
     const position = client.db().collection('position');
     const info = await position.find({id: ID}).toArray();
-    console.log(info[0].skill)
+    // console.log(info[0].skill)  // ***************************************************** print mongodb status 
     return info[0]
 }
 

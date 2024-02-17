@@ -69,6 +69,18 @@ document.addEventListener('keydown', (e)=>{
                 var block = document.getElementById(`block_${posx+1}_${posy}`)
                 if(block.className != "blockage") socket.emit('keypress', key, posx, posy)
                 break;
+            case "a":
+                socket.emit('keypress', key, posx, posy)
+                break;
+            case "s":
+                socket.emit('keypress', key, posx, posy)
+                break;
+            case "d":
+                socket.emit('keypress', key, posx, posy)
+                break;
+            case "f":
+                socket.emit('keypress', key, posx, posy)
+                break;
             default:
                 break;
         }
@@ -119,5 +131,43 @@ socket.on('other player', (p)=>{
             }
             
         });
+    }
+})
+
+socket.on("col_att", (px, py)=>{
+    for(var i = 0; i < blockrow; i++){
+        if(i != py){
+            const block = document.getElementById(`block_${px}_${i}`)
+            orinbackgroundColor = "rgb(159, 159, 159)"
+            orinborder = "1px black solid"
+            block.style.backgroundColor = "white"
+            setTimeout(()=>{
+                block.style.backgroundColor = "black"
+                block.style.border = "5px solid white"
+            }, 500)
+            setTimeout(()=>{
+                block.style.backgroundColor = orinbackgroundColor
+                block.style.border = orinborder
+            }, 1000);
+        }
+    }
+})
+
+socket.on("row_att", (px, py)=>{
+    for(var i = 0; i < blockcol; i++){
+        if(i != px){
+            const block = document.getElementById(`block_${i}_${py}`)
+            orinbackgroundColor = "rgb(159, 159, 159)"
+            orinborder = "1px black solid"
+            block.style.backgroundColor = "white"
+            setTimeout(()=>{
+                block.style.backgroundColor = "black"
+                block.style.border = "5px solid white"
+            }, 500)
+            setTimeout(()=>{
+                block.style.backgroundColor = orinbackgroundColor
+                block.style.border = orinborder
+            }, 1000);
+        }
     }
 })

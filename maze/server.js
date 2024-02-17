@@ -54,6 +54,32 @@ io.on('connection', async (socket) => {
             case 'ArrowRight':
                 if(posx <= 25) await mongo.updateposition(socket.id, posx+1, posy)
                 break;
+            case 'a':
+                mongo.getposition(socket.id).then((info) => {
+                    console.log("col:",info.skill.col)
+                    if(info.skill.col > 0){
+                        io.emit("col_att", posx, posy)
+                    }
+                })
+                break;
+            case 's':
+                mongo.getposition(socket.id).then((info) => {
+                    console.log("row:",info.skill.row)
+                    if(info.skill.row > 0){
+                        io.emit("row_att", posx, posy)
+                    }
+                })
+                break;
+            case 'd':
+                mongo.getposition(socket.id).then((info) => {
+                    console.log("around:",info.skill.around)
+                })
+                break;
+            case 'f':
+                mongo.getposition(socket.id).then((info) => {
+                    console.log("wave:",info.skill.wave)
+                })
+                break;
             default:
                 break;
         }
