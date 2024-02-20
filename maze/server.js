@@ -28,6 +28,7 @@ io.on('connection', async (socket) => {
             io.emit('other player', info)
         })
     })
+    
 
     /* db */
     await mongo.createplayer(socket.id)
@@ -56,7 +57,7 @@ io.on('connection', async (socket) => {
                 break;
             case 'a':
                 mongo.getposition(socket.id).then((info) => {
-                    console.log("col:",info.skill.col)
+                    // console.log("col:",info.skill.col)
                     if(info.skill.col > 0){
                         io.emit("col_att", posx, posy)
                     }
@@ -64,7 +65,7 @@ io.on('connection', async (socket) => {
                 break;
             case 's':
                 mongo.getposition(socket.id).then((info) => {
-                    console.log("row:",info.skill.row)
+                    // console.log("row:",info.skill.row)
                     if(info.skill.row > 0){
                         io.emit("row_att", posx, posy)
                     }
@@ -72,12 +73,12 @@ io.on('connection', async (socket) => {
                 break;
             case 'd':
                 mongo.getposition(socket.id).then((info) => {
-                    console.log("around:",info.skill.around)
+                    // console.log("around:",info.skill.around)
                 })
                 break;
             case 'f':
                 mongo.getposition(socket.id).then((info) => {
-                    console.log("wave:",info.skill.wave)
+                    // console.log("wave:",info.skill.wave)
                 })
                 break;
             default:
@@ -91,6 +92,9 @@ io.on('connection', async (socket) => {
             // console.log('pos:', info)
             io.emit('other player', info)
         })
+    })
+    socket.on("damage", async ()=>{
+        await mongo.heath_update(socket.id, -1)
     })
 });
 

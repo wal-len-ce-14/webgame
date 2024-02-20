@@ -69,3 +69,24 @@ h1{
     z-index: 999;
     /* right: 0.1rem; */
 }
+
+#player-life{
+    width: 20rem;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    /* align-items: center; */
+    justify-content: space-around;
+}
+
+i {
+    font-size: 2rem;
+    color: red;
+}
+
+#gameoverbanner{
+    align-content: center;
+    text-align: center;
+    font-size: 10rem;
+    color: red;
+}

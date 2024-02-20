@@ -134,8 +134,32 @@ socket.on('other player', (p)=>{
     }
 })
 
+/* life operation */
+var life = 5
+const heart = document.getElementById("player-life")
+
+const wait = 800
 socket.on("col_att", (px, py)=>{
+    setTimeout(() => {
+        var contr = 1;
+        var interval = setInterval(()=>{
+            if(posx == px && posy != py && contr == 1){
+                heart.removeChild(heart.firstChild)
+                heart.removeChild(heart.firstChild)
+                life -= 1;
+                contr = 0;
+                socket.emit("damage")
+                if(life == 0){
+                    gameover();
+                }
+            }
+        }, 1)
+        setTimeout(()=>{
+            clearInterval(interval)
+        }, wait/2)
+    }, wait/2);
     for(var i = 0; i < blockrow; i++){
+        
         if(i != py){
             const block = document.getElementById(`block_${px}_${i}`)
             orinbackgroundColor = "rgb(159, 159, 159)"
@@ -144,16 +168,38 @@ socket.on("col_att", (px, py)=>{
             setTimeout(()=>{
                 block.style.backgroundColor = "black"
                 block.style.border = "5px solid white"
-            }, 500)
+            }, wait/2)
             setTimeout(()=>{
                 block.style.backgroundColor = orinbackgroundColor
                 block.style.border = orinborder
-            }, 1000);
+            }, wait);
         }
     }
 })
 
 socket.on("row_att", (px, py)=>{
+    
+    setTimeout(() => {
+        var contr = 1;
+        var interval = setInterval(()=>{
+            if(posy == py && posx != px && contr == 1){
+                life -= 1;
+                contr = 0;
+                socket.emit("damage")
+                console.log(heart.childElementCount)
+                heart.removeChild(heart.firstChild)
+                heart.removeChild(heart.firstChild)
+                if(life == 0){
+                    gameover();
+                }
+            }
+        }, 1)
+        setTimeout(()=>{
+            clearInterval(interval)
+            contr = 1
+        }, wait/2)
+    }, wait/2);
+
     for(var i = 0; i < blockcol; i++){
         if(i != px){
             const block = document.getElementById(`block_${i}_${py}`)
@@ -163,11 +209,23 @@ socket.on("row_att", (px, py)=>{
             setTimeout(()=>{
                 block.style.backgroundColor = "black"
                 block.style.border = "5px solid white"
-            }, 500)
+            }, wait/2)
             setTimeout(()=>{
                 block.style.backgroundColor = orinbackgroundColor
                 block.style.border = orinborder
-            }, 1000);
+            }, wait);
         }
     }
 })
+
+function gameover(){
+    while(map.firstChild){
+        map.removeChild(map.firstChild);
+    }
+    const gameoverbanner = document.createElement('div')
+    gameoverbanner.id = 'gameoverbanner'
+    gameoverbanner.textContent = "GAME OVER"
+    map.append(gameoverbanner)
+}
+
+
